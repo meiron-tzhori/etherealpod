@@ -3,7 +3,6 @@ run:
   allow-parallel-runners: true
 linters:
   default: none
-  disable-all: true
   enable:
     - govet
     - staticcheck
