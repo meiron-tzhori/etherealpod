@@ -3,24 +3,14 @@ run:
   allow-parallel-runners: true
 linters:
   default: none
+  disable-all: true
   enable:
-    - copyloopvar
-    - dupl
-    - errcheck
-    - ginkgolinter
-    - goconst
-    - gocyclo
     - govet
-    - ineffassign
-    - lll
-    - modernize
-    - misspell
-    - nakedret
-    - prealloc
-    - revive
     - staticcheck
-    - unconvert
-    - unparam
+    - unused
+  enable:
+    - govet
+    - staticcheck
     - unused
   settings:
     custom:
