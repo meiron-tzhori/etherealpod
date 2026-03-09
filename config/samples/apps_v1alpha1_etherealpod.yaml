@@ -1,0 +1,9 @@
+apiVersion: apps.ascendra.local/v1alpha1
+kind: EtherealPod
+metadata:
+  labels:
+    app.kubernetes.io/name: ascendra-hw-parta
+    app.kubernetes.io/managed-by: kustomize
+  name: etherealpod-sample
+spec:
+  # TODO(user): Add fields here

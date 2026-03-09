@@ -1,0 +1,74 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.1
+  name: etherealpods.apps.ascendra.local
+spec:
+  group: apps.ascendra.local
+  names:
+    kind: EtherealPod
+    listKind: EtherealPodList
+    plural: etherealpods
+    shortNames:
+    - eps
+    singular: etherealpod
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.podName
+      name: POD
+      type: string
+    - jsonPath: .status.restarts
+      name: RESTARTS
+      type: integer
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EtherealPod is the Schema for the etherealpods API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: spec defines the desired state of EtherealPod
+            properties:
+              template:
+                description: Template defines the backing Pod to run for this EtherealPod.
+                x-kubernetes-preserve-unknown-fields: true
+            required:
+            - template
+            type: object
+          status:
+            description: status defines the observed state of EtherealPod
+            properties:
+              podName:
+                type: string
+              restarts:
+                format: int32
+                type: integer
+            required:
+            - restarts
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

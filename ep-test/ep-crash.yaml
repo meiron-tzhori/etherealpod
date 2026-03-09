@@ -1,0 +1,15 @@
+apiVersion: apps.ascendra.local/v1alpha1
+kind: EtherealPod
+metadata:
+  name: demo
+spec:
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: main
+        image: busybox
+        command: ["sh","-c","exit 1"]

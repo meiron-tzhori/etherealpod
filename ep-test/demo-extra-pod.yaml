@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-extra
+  namespace: ep-test
+  labels:
+    apps.ascendra.local/etherealpod: demo
+spec:
+  automountServiceAccountToken: false
+  containers:
+    - name: main
+      image: nginx:1.27
+      ports:
+        - containerPort: 80

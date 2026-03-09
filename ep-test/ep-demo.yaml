@@ -1,0 +1,16 @@
+apiVersion: apps.ascendra.local/v1alpha1
+kind: EtherealPod
+metadata:
+  name: demo
+  namespace: ep-test
+spec:
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: main
+          image: nginx:1.27
+          ports:
+            - containerPort: 80

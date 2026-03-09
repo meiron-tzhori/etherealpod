@@ -1,0 +1,55 @@
+name: Build Operator
+
+on:
+  push:
+    paths:
+      - 'etherealpod/**'
+      - '.github/workflows/build-operator.yml'
+  pull_request:
+    paths:
+      - 'etherealpod/**'
+      - '.github/workflows/build-operator.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: etherealpod
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-go@v5
+      with:
+        go-version: '1.25.3'  # Match go directive in go.mod
+    
+    - name: Restore Go cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+    
+    - name: Run make build
+      run: make build  # Builds main.go binary
+    
+    - name: Run unit tests
+      run: make test
+
+    - name: Run lint
+      run: make lint
+    
+    - name: Docker build (optional)
+      if: github.event_name == 'push'
+      env:
+        IMG: ghcr.io/${{ github.repository }}/etherealpod:latest
+      run: make docker-build IMG=$IMG
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: operator-binary
+        path: etherealpod/bin/manager
